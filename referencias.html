@@ -11,51 +11,67 @@
 
     <h1>Estudio de Tatuajes: Galería de Referencias</h1>
 
-    <div id="galeria"></div>
+    <h2>Blackwork</h2>
+    <div id="galeria-blackwork"></div>
+
+    <h2>Color</h2>
+    <div id="galeria-color"></div>
+
+    <h2>Fineline</h2>
+    <div id="galeria-fineline"></div>
 
     <footer>
         <p>&copy; 2025 InkFlow &mdash; Desarrollado por <strong>BitBang</strong></p>
     </footer>
 
     <script type="module">
+        //Se importa la función de manejo de errores desde el módulo correspondiente
         import { muestraError } from "./js/lib/muestraError.js";
 
         // Credencial de acceso a la API de Unsplash
         const ACCESS_KEY = "sRGAGOgROoxHzYBwWggorWu7F_0yRb584SuDiHed-a4";
 
-        // Endpoint de búsqueda: trae 12 fotos con la palabra clave "tattoo"
-        const URL = `https://api.unsplash.com/search/photos?query=tattoo&per_page=12&client_id=${ACCESS_KEY}`;
+        // Estilos a mostrar, cada uno vinculado a su contenedor en el DOM
+        const estilos = [
+            { query: "blackwork tattoo", contenedorId: "galeria-blackwork" },
+            { query: "color tattoo",     contenedorId: "galeria-color"     },
+            { query: "fineline tattoo",  contenedorId: "galeria-fineline"  },
+        ];
 
-        const galeria = document.getElementById("galeria");
+        // Construye la URL de búsqueda para un estilo dado
+        function buildURL(query) {
+            return `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=5&client_id=${ACCESS_KEY}`;
+        }
 
-        async function cargarImagenes() {
+        // Inserta las fotos de un estilo en su contenedor correspondiente
+        async function cargarEstilo(query, contenedorId) {
+            const contenedor = document.getElementById(contenedorId);
+
             try {
                 // Solicitud GET a la API de Unsplash
-                const respuesta = await fetch(URL, {
-                    headers: {
-                        "Accept": "application/json"
-                    }
+                const respuesta = await fetch(buildURL(query), {
+                    headers: { "Accept": "application/json" }
                 });
 
                 // Si la respuesta no es 2xx, lanzamos un error con el mensaje del servidor
                 if (!respuesta.ok) {
-                    throw new Error(`Error al obtener imágenes: ${respuesta.statusText}`);
+                    throw new Error(`Error al obtener imágenes (${query}): ${respuesta.statusText}`);
                 }
 
                 const datos = await respuesta.json();
 
                 // Iteramos cada foto del resultado y construimos su tarjeta en el DOM
                 for (const foto of datos.results) {
-                    const contenedor = document.createElement("figure");
+                    const figure = document.createElement("figure");
 
-                    // Imagen usando la versión "small" de Unsplash (400px aprox.)
+                    // Imagen usando la versión "small" de Unsplash (~400px)
                     const img = document.createElement("img");
                     img.src = foto.urls.small;
-                    img.alt = foto.alt_description ?? "Referencia de tatuaje";
+                    img.alt = foto.alt_description ?? `Tatuaje estilo ${query}`;
                     img.width = 200;
 
                     // Atribución requerida por los términos de uso de Unsplash
-                    const credito = document.createElement("figcaption");
+                    const figcaption = document.createElement("figcaption");
 
                     // Link al perfil del fotógrafo con parámetros UTM obligatorios
                     const linkFotografo = document.createElement("a");
@@ -70,11 +86,11 @@
                     linkUnsplash.innerText = "Unsplash";
 
                     // Formato: "Photo by [fotógrafo] on Unsplash"
-                    credito.append("Photo by ", linkFotografo, " on ", linkUnsplash);
+                    figcaption.append("Photo by ", linkFotografo, " on ", linkUnsplash);
 
-                    contenedor.appendChild(img);
-                    contenedor.appendChild(credito);
-                    galeria.appendChild(contenedor);
+                    figure.appendChild(img);
+                    figure.appendChild(figcaption);
+                    contenedor.appendChild(figure);
                 }
 
             } catch (error) {
@@ -83,7 +99,10 @@
             }
         }
 
-        cargarImagenes();
+        // Lanzamos las tres búsquedas en paralelo
+        for (const { query, contenedorId } of estilos) {
+            cargarEstilo(query, contenedorId);
+        }
     </script>
 </body>
 </html>
