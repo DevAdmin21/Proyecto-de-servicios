@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>InkFlow - Cotizador JSON</title>
+</head>
+<body>
+    <h1>Estudio de Tatuajes: Cotizador</h1>
+
+    <fieldset>
+        <legend>Calcula tu presupuesto</legend>
+        <label>Tamaño aproximado (cm): 
+            <input type="number" id="inTamano" value="5" min="1">
+        </label><br><br>
+        <label>
+            <input type="checkbox" id="inColor"> ¿Será a color?
+        </label><br><br>
+        <button id="boton">Obtener Presupuesto</button>
+    </fieldset>
+
+    <div id="resultado" style="margin-top: 20px; font-weight: bold;"></div>
+
+    <script type="module">
+        import { consume } from "./js/lib/consume.js"
+        import { enviaJsonRecibeJson } from "./js/lib/enviaJsonRecibeJson.js"
+        import { muestraError } from "./js/lib/muestraError.js"
+
+        const boton = document.getElementById("boton");
+        const divResultado = document.getElementById("resultado");
+
+        boton.addEventListener("click", procesarCotizacion);
+
+        async function procesarCotizacion() {
+            try {
+                const datos = {
+                    tamano: parseInt(document.getElementById("inTamano").value),
+                    esColor: document.getElementById("inColor").checked
+                };
+                const respuesta = await consume(
+                    enviaJsonRecibeJson("php/json.php", datos)
+                );
+                const json = await respuesta.json();
+                divResultado.innerText = json.mensaje;
+
+            } catch (error) {
+                muestraError(error);
+            }
+        }
+    </script>
+</body>
+</html>
