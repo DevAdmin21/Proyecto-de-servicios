@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>InkFlow - Referencias</title>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Volver a la página principal</a>
+    </nav>
+
+    <h1>Estudio de Tatuajes: Galería de Referencias</h1>
+
+    <div id="galeria"></div>
+    <div id="error"></div>
+
+    <footer>
+        <p>&copy; 2025 InkFlow &mdash; Desarrollado por <strong>BitBang</strong></p>
+    </footer>
+
+    <script type="module">
+        const ACCESS_KEY = "sRGAGOgROoxHzYBwWggorWu7F_0yRb584SuDiHed-a4";
+        const URL = `https://api.unsplash.com/search/photos?query=tattoo&per_page=12&client_id=${ACCESS_KEY}`;
+
+        const galeria = document.getElementById("galeria");
+        const errorDiv = document.getElementById("error");
+
+        async function cargarImagenes() {
+            try {
+                const respuesta = await fetch(URL, {
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                });
+
+                if (!respuesta.ok) {
+                    throw new Error(`Error al obtener imágenes: ${respuesta.statusText}`);
+                }
+
+                const datos = await respuesta.json();
+
+                for (const foto of datos.results) {
+                    const contenedor = document.createElement("figure");
+
+                    const img = document.createElement("img");
+                    img.src = foto.urls.small;
+                    img.alt = foto.alt_description ?? "Referencia de tatuaje";
+                    img.width = 200;
+
+                    const credito = document.createElement("figcaption");
+                    const linkFotografo = document.createElement("a");
+                    linkFotografo.href = `${foto.user.links.html}?utm_source=inkflow&utm_medium=referral`;
+                    linkFotografo.target = "_blank";
+                    linkFotografo.innerText = foto.user.name;
+
+                    const linkUnsplash = document.createElement("a");
+                    linkUnsplash.href = "https://unsplash.com/?utm_source=inkflow&utm_medium=referral";
+                    linkUnsplash.target = "_blank";
+                    linkUnsplash.innerText = "Unsplash";
+
+                    credito.append("Photo by ", linkFotografo, " on ", linkUnsplash);
+
+                    contenedor.appendChild(img);
+                    contenedor.appendChild(credito);
+                    galeria.appendChild(contenedor);
+                }
+
+            } catch (error) {
+                console.error(error);
+                errorDiv.innerText = `No se pudieron cargar las imágenes: ${error.message}`;
+            }
+        }
+
+        cargarImagenes();
+    </script>
+</body>
+</html>
