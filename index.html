@@ -2,33 +2,33 @@
 <html lang="es">
 
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
 
- <title>Catálogo de Tatuadores</title>
+    <title>Catálogo de Tatuadores</title>
 
- <script type="module" src="js/lib/manejaErrores.js"></script>
+    <script type="module" src="js/lib/manejaErrores.js"></script>
 
 </head>
 
 <body>
 
- <nav>
-  <a href="index.html">Inicio</a>
-  <a href="cotizartatuaje.html">Cotización</a>
-  <a href="#">Citas</a>
- </nav>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="cotizartatuaje.html">Cotización</a>
+        <a href="#">Citas</a>
+    </nav>
 
- <h1>Catálogo de Tatuadores</h1>
+    <h1>Catálogo de Tatuadores</h1>
 
- <div id="lista">
-  <progress max="100">Cargando…</progress>
- </div>
+    <div id="lista">
+        <progress max="100">Cargando…</progress>
+    </div>
 
- <script type="module">
-  import { descargaVista } from "./js/lib/descargaVista.js"
-  descargaVista("php/vista-index.php")
- </script>
+    <script type="module">
+        import { descargaVista } from "./js/lib/descargaVista.js"
+        descargaVista("php/vista-index.php")
+    </script>
 
 </body>
 
