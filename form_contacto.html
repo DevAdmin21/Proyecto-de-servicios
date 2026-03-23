@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-
-    <title>Formulario de contacto</title>
-
+    <title>Formulario de Contacto</title>
     <script type="module" src="js/lib/manejaErrores.js"></script>
 
 </head>
@@ -18,45 +16,47 @@
         <h1>Formulario de contacto</h1>
 
         <form id="formulario">
-            <div class="input-group">
-                <input id="nombre" type="text" name="nombre" placeholder="nombre" required>
-            </div>
 
-            <div class="input-group">
-                <input id="apellidos" type="text" name="apellidos" placeholder="apellidos" required>
-            </div>
+            <select name="art_id" required>
+                <option value="1">Alex Ink</option>
+                <option value="2">Elena Moon</option>
+                <option value="3">Victor Real</option>
+            </select>
+            <br>
 
-            <div class="input-group">
-                <input id="numero" type="tel" name="numero" placeholder="numero" required>
-            </div>
-
-            <div class="input-group">
-            <input id="correo" type="email" name="correo" placeholder="Correo electrónico">
-            </div>
+            <input type="text" name="cit_cliente" placeholder="Tu nombre" required>
+            <br>
+            <input type="email" name="cit_email" placeholder="Correo" required>
+            <br>
+            <textarea name="cit_descripcion" placeholder="Descripción" required></textarea>
+            <br>
+            <input type="date" name="cit_fecha" required>
+            <br>
+            <p><button type="submit">Procesa</button></p>
         </form>
+
     </div>
-    
-    <p><button type="submit">Enivar</button></p>
 
-    
-
-<script type="module">
+    <script type="module">
   import { consume } from "./js/lib/consume.js"
-  import { enviaFormRecibeJson } from "./js/lib/enviaFormRecibeJson.js"
+  import { enviaFormRecibeJson } from "./js/lib/enviaFromRecibeJson.js"
+
+  const formulario = document.getElementById("formulario")
   formulario.addEventListener("submit", submit)
-  /**
-   * @param {Event} event
-   */
+
   async function submit(event) {
-   event.preventDefault()
-   const respuesta = await consume(
-    enviaFormRecibeJson(
-     "php/valida.php", formulario))
-   const json =
-    await respuesta.json()
-   alert(json)
+    event.preventDefault()
+    try {
+      const respuesta = await consume(
+        enviaFormRecibeJson("php/agregaCita.php", formulario))
+      
+      const json = await respuesta.json()
+      alert(json)
+    } catch (error) {
+      console.error(error)
+    }
   }
- </script>
+</script>
 
 </body>
 

@@ -1,56 +1,30 @@
 <?php
-
 require_once __DIR__ . "/lib/manejaErrores.php";
 require_once __DIR__ . "/lib/BAD_REQUEST.php";
 require_once __DIR__ . "/lib/recibeTexto.php";
 require_once __DIR__ . "/lib/ProblemDetailsException.php";
 require_once __DIR__ . "/lib/devuelveJson.php";
 
-$nombre = recibeTexto("nombre");
-$apellidos = recibeTexto("apellidos");
-$numero = recibeTexto("numero");
-$correo = recibeTexto("correo");
+$art_id = recibeTexto("art_id");
+$cit_cliente = recibeTexto("cit_cliente");
+$cit_email = recibeTexto("cit_email");
+$cit_descripcion = recibeTexto("cit_descripcion");
+$cit_fecha = recibeTexto("cit_fecha");
 
-if (
- $nombre === false
- || $nombre === ""
-)
- throw new ProblemDetailsException([
-  "status" => BAD_REQUEST,
-  "title" => "Falta el nombre.",
-  "type" => "/errors/faltanombre.html"
- ]);
+if ($cit_cliente === false || $cit_cliente === "")
+    throw new ProblemDetailsException([
+        "status" => BAD_REQUEST,
+        "title" => "Falta el nombre del cliente.",
+        "type" => "/errors/faltacliente.html"
+    ]);
 
- if (
- $apellidos === false
- || $apellidos === ""
-)
- throw new ProblemDetailsException([
-  "status" => BAD_REQUEST,
-  "title" => "Falta el nombre.",
-  "type" => "/errors/faltapaellidos.html"
- ]);
+if ($cit_email === false || $cit_email === "")
+    throw new ProblemDetailsException([
+        "status" => BAD_REQUEST,
+        "title" => "Falta el correo.",
+        "type" => "/errors/faltacorreo.html"
+    ]);
 
-if (
- $numero === false
- || $numero === ""
-)
- throw new ProblemDetailsException([
-  "status" => BAD_REQUEST,
-  "title" => "Falta el nombre.",
-  "type" => "/errors/faltanombre.html"
- ]);
-
- if (
- $correo === false
- || $correo === ""
-)
- throw new ProblemDetailsException([
-  "status" => BAD_REQUEST,
-  "title" => "Falta el nombre.",
-  "type" => "/errors/faltanombre.html"
- ]);
-
-$resultado = "{$nombre}{$apellidos}{$numero}{$correo}.";
-
+// Solo devuelve el JSON con los datos validados
+$resultado = "{$cit_cliente} {$cit_email} {$cit_descripcion}";
 devuelveJson($resultado);
