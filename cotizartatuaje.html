@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>InkFlow - Cotizador JSON</title>
 </head>
+
 <body>
     <nav>
         <a href="index.html">Inicio</a>
@@ -14,7 +16,7 @@
 
     <fieldset>
         <legend>Calcula tu presupuesto</legend>
-        <label>Tamaño aproximado (cm): 
+        <label>Tamaño aproximado (cm):
             <input type="number" id="inTamano" value="5" min="1">
         </label><br><br>
         <label>
@@ -37,6 +39,13 @@
 
         async function procesarCotizacion() {
             try {
+                const tamano = parseInt(document.getElementById("inTamano").value);
+
+                
+                if (isNaN(tamano) || tamano <= 0) {
+                    divResultado.innerText = "El tamaño debe ser mayor a 0.";
+                    return;
+                }
                 const datos = {
                     tamano: parseInt(document.getElementById("inTamano").value),
                     esColor: document.getElementById("inColor").checked
@@ -53,4 +62,5 @@
         }
     </script>
 </body>
+
 </html>
