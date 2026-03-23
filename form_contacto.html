@@ -2,61 +2,65 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Formulario de Contacto</title>
-    <script type="module" src="js/lib/manejaErrores.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Formulario de Contacto</title>
+  <script type="module" src="js/lib/manejaErrores.js"></script>
 
 </head>
 
 <body>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="cotizartatuaje.html">Cotización</a>
+    <a href="form_contacto.html">Citas</a>
+  </nav>
+  <div class="contenedor">
 
-    <div class="contenedor">
+    <h1>Formulario de contacto</h1>
 
-        <h1>Formulario de contacto</h1>
+    <form id="formulario">
 
-        <form id="formulario">
+      <select name="art_id" required>
+        <option value="1">Alex Ink</option>
+        <option value="2">Elena Moon</option>
+        <option value="3">Victor Real</option>
+      </select>
+      <br>
 
-            <select name="art_id" required>
-                <option value="1">Alex Ink</option>
-                <option value="2">Elena Moon</option>
-                <option value="3">Victor Real</option>
-            </select>
-            <br>
+      <input type="text" name="cit_cliente" placeholder="Tu nombre" required>
+      <br>
+      <input type="email" name="cit_email" placeholder="Correo" required>
+      <br>
+      <textarea name="cit_descripcion" placeholder="Descripción" required></textarea>
+      <br>
+      <input type="date" name="cit_fecha" required>
+      <br>
+      <p><button type="submit">Procesa</button></p>
+    </form>
 
-            <input type="text" name="cit_cliente" placeholder="Tu nombre" required>
-            <br>
-            <input type="email" name="cit_email" placeholder="Correo" required>
-            <br>
-            <textarea name="cit_descripcion" placeholder="Descripción" required></textarea>
-            <br>
-            <input type="date" name="cit_fecha" required>
-            <br>
-            <p><button type="submit">Procesa</button></p>
-        </form>
+  </div>
 
-    </div>
+  <script type="module">
+    import { consume } from "./js/lib/consume.js"
+    import { enviaFormRecibeJson } from "./js/lib/enviaFromRecibeJson.js"
 
-    <script type="module">
-  import { consume } from "./js/lib/consume.js"
-  import { enviaFormRecibeJson } from "./js/lib/enviaFromRecibeJson.js"
+    const formulario = document.getElementById("formulario")
+    formulario.addEventListener("submit", submit)
 
-  const formulario = document.getElementById("formulario")
-  formulario.addEventListener("submit", submit)
+    async function submit(event) {
+      event.preventDefault()
+      try {
+        const respuesta = await consume(
+          enviaFormRecibeJson("php/agregaCita.php", formulario))
 
-  async function submit(event) {
-    event.preventDefault()
-    try {
-      const respuesta = await consume(
-        enviaFormRecibeJson("php/agregaCita.php", formulario))
-      
-      const json = await respuesta.json()
-      alert(json)
-    } catch (error) {
-      console.error(error)
+        const json = await respuesta.json()
+        alert(json)
+      } catch (error) {
+        console.error(error)
+      }
     }
-  }
-</script>
+  </script>
 
 </body>
 
