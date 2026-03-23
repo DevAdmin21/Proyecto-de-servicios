@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Formulario de contacto</title>
+
+    <script type="module" src="js/lib/manejaErrores.js"></script>
+
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <h1>Formulario de contacto</h1>
+
+        <form id="formulario">
+            <div class="input-group">
+                <input id="nombre" type="text" name="nombre" placeholder="nombre" required>
+            </div>
+
+            <div class="input-group">
+                <input id="apellidos" type="text" name="apellidos" placeholder="apellidos" required>
+            </div>
+
+            <div class="input-group">
+                <input id="numero" type="tel" name="numero" placeholder="numero" required>
+            </div>
+
+            <div class="input-group">
+            <input id="correo" type="email" name="correo" placeholder="Correo electrónico">
+            </div>
+        </form>
+    </div>
+    
+    <p><button type="submit">Procesa</button></p>
+
+    
+
+<script type="module">
+  import { consume } from "./js/lib/consume.js"
+  import { enviaFormRecibeJson } from "./js/lib/enviaFormRecibeJson.js"
+  formulario.addEventListener("submit", submit)
+  /**
+   * @param {Event} event
+   */
+  async function submit(event) {
+   event.preventDefault()
+   const respuesta = await consume(
+    enviaFormRecibeJson(
+     "php/valida.php", formulario))
+   const json =
+    await respuesta.json()
+   alert(json)
+  }
+ </script>
+
+</body>
+
+</html>
