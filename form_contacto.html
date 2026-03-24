@@ -50,15 +50,13 @@
 
     async function submit(event) {
       event.preventDefault()
-      try {
-        const respuesta = await consume(
-          enviaFormRecibeJson("php/agregaCita.php", formulario))
 
-        const json = await respuesta.json()
-        alert(json)
-      } catch (error) {
-        console.error(error)
-      }
+      const respuesta = await consume(
+        enviaFormRecibeJson("php/agregaCita.php", formulario))
+
+      const json = await respuesta.json()
+      alert(json)
+
     }
   </script>
 

@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <title>InkFlow - Cotizador JSON</title>
+    <script type="module" src="js/lib/manejaErrores.js"></script>
 </head>
 
 <body>
     <nav>
         <a href="index.html">Inicio</a>
         <a href="cotizartatuaje.html">Cotización</a>
-        <a href="referencias.html">Referencias</a>
         <a href="form_contacto.html">Citas</a>
+        <a href="referencias.html">Referencias</a>
     </nav>
     <h1>Estudio de Tatuajes: Cotizador</h1>
 
@@ -45,27 +46,25 @@
             }
         });
         async function procesarCotizacion() {
-            try {
-                const tamano = parseInt(document.getElementById("inTamano").value);
+
+            const tamano = parseInt(document.getElementById("inTamano").value);
 
 
-                if (isNaN(tamano) || tamano <= 0) {
-                    divResultado.innerText = "El tamaño debe ser mayor a 0.";
-                    return;
-                }
-                const datos = {
-                    tamano: parseInt(document.getElementById("inTamano").value),
-                    esColor: document.getElementById("inColor").checked
-                };
-                const respuesta = await consume(
-                    enviaJsonRecibeJson("php/json.php", datos)
-                );
-                const json = await respuesta.json();
-                divResultado.innerText = json.mensaje;
-
-            } catch (error) {
-                muestraError(error);
+            if (isNaN(tamano) || tamano <= 0) {
+                divResultado.innerText = "El tamaño debe ser mayor a 0.";
+                return;
             }
+            const datos = {
+                tamano: parseInt(document.getElementById("inTamano").value),
+                esColor: document.getElementById("inColor").checked
+            };
+            const respuesta = await consume(
+                enviaJsonRecibeJson("php/json.php", datos)
+            );
+            const json = await respuesta.json();
+            divResultado.innerText = json.mensaje;
+
+
         }
     </script>
 </body>

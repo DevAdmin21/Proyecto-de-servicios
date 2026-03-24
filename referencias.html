@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>InkFlow - Referencias</title>
+    <script type="module" src="js/lib/manejaErrores.js"></script>
 </head>
 
 <body>
@@ -11,6 +12,7 @@
         <a href="index.html">Inicio</a>
         <a href="cotizartatuaje.html">Cotización</a>
         <a href="form_contacto.html">Citas</a>
+        <a href="referencias.html">Referencias</a>
     </nav>
 
     <h1>Estudio de Tatuajes: Galería de Referencias</h1>
@@ -51,56 +53,53 @@
         async function cargarEstilo(query, contenedorId) {
             const contenedor = document.getElementById(contenedorId);
 
-            try {
-                // Solicitud GET a la API de Unsplash
-                const respuesta = await fetch(buildURL(query), {
-                    headers: { "Accept": "application/json" }
-                });
 
-                // Si la respuesta no es 2xx, lanzamos un error con el mensaje del servidor
-                if (!respuesta.ok) {
-                    throw new Error(`Error al obtener imágenes (${query}): ${respuesta.statusText}`);
-                }
+            // Solicitud GET a la API de Unsplash
+            const respuesta = await fetch(buildURL(query), {
+                headers: { "Accept": "application/json" }
+            });
 
-                const datos = await respuesta.json();
-
-                // Iteramos cada foto del resultado y construimos su tarjeta en el DOM
-                for (const foto of datos.results) {
-                    const figure = document.createElement("figure");
-
-                    // Imagen usando la versión "small" de Unsplash (~400px)
-                    const img = document.createElement("img");
-                    img.src = foto.urls.small;
-                    img.alt = foto.alt_description ?? `Tatuaje estilo ${query}`;
-                    img.width = 200;
-
-                    // Atribución requerida por los términos de uso de Unsplash
-                    const figcaption = document.createElement("figcaption");
-
-                    // Link al perfil del fotógrafo con parámetros UTM obligatorios
-                    const linkFotografo = document.createElement("a");
-                    linkFotografo.href = `${foto.user.links.html}?utm_source=inkflow&utm_medium=referral`;
-                    linkFotografo.target = "_blank";
-                    linkFotografo.innerText = foto.user.name;
-
-                    // Link a Unsplash con parámetros UTM obligatorios
-                    const linkUnsplash = document.createElement("a");
-                    linkUnsplash.href = "https://unsplash.com/?utm_source=inkflow&utm_medium=referral";
-                    linkUnsplash.target = "_blank";
-                    linkUnsplash.innerText = "Unsplash";
-
-                    // Formato: "Photo by [fotógrafo] on Unsplash"
-                    figcaption.append("Photo by ", linkFotografo, " on ", linkUnsplash);
-
-                    figure.appendChild(img);
-                    figure.appendChild(figcaption);
-                    contenedor.appendChild(figure);
-                }
-
-            } catch (error) {
-                // Manejo centralizado de errores: muestra alert y registra en consola
-                muestraError(error);
+            // Si la respuesta no es 2xx, lanzamos un error con el mensaje del servidor
+            if (!respuesta.ok) {
+                throw new Error(`Error al obtener imágenes (${query}): ${respuesta.statusText}`);
             }
+
+            const datos = await respuesta.json();
+
+            // Iteramos cada foto del resultado y construimos su tarjeta en el DOM
+            for (const foto of datos.results) {
+                const figure = document.createElement("figure");
+
+                // Imagen usando la versión "small" de Unsplash (~400px)
+                const img = document.createElement("img");
+                img.src = foto.urls.small;
+                img.alt = foto.alt_description ?? `Tatuaje estilo ${query}`;
+                img.width = 200;
+
+                // Atribución requerida por los términos de uso de Unsplash
+                const figcaption = document.createElement("figcaption");
+
+                // Link al perfil del fotógrafo con parámetros UTM obligatorios
+                const linkFotografo = document.createElement("a");
+                linkFotografo.href = `${foto.user.links.html}?utm_source=inkflow&utm_medium=referral`;
+                linkFotografo.target = "_blank";
+                linkFotografo.innerText = foto.user.name;
+
+                // Link a Unsplash con parámetros UTM obligatorios
+                const linkUnsplash = document.createElement("a");
+                linkUnsplash.href = "https://unsplash.com/?utm_source=inkflow&utm_medium=referral";
+                linkUnsplash.target = "_blank";
+                linkUnsplash.innerText = "Unsplash";
+
+                // Formato: "Photo by [fotógrafo] on Unsplash"
+                figcaption.append("Photo by ", linkFotografo, " on ", linkUnsplash);
+
+                figure.appendChild(img);
+                figure.appendChild(figcaption);
+                contenedor.appendChild(figure);
+            }
+
+
         }
 
         // Lanzamos las tres búsquedas en paralelo
