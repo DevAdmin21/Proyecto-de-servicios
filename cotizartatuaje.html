@@ -10,6 +10,7 @@
     <nav>
         <a href="index.html">Inicio</a>
         <a href="cotizartatuaje.html">Cotización</a>
+        <a href="referencias.html">Referencias</a>
         <a href="form_contacto.html">Citas</a>
     </nav>
     <h1>Estudio de Tatuajes: Cotizador</h1>
@@ -36,12 +37,18 @@
         const divResultado = document.getElementById("resultado");
 
         boton.addEventListener("click", procesarCotizacion);
+        const inputTamano = document.getElementById("inTamano");
 
+        inputTamano.addEventListener("input", () => {
+            if (inputTamano.value === "") {
+                inputTamano.value = 1;
+            }
+        });
         async function procesarCotizacion() {
             try {
                 const tamano = parseInt(document.getElementById("inTamano").value);
 
-                
+
                 if (isNaN(tamano) || tamano <= 0) {
                     divResultado.innerText = "El tamaño debe ser mayor a 0.";
                     return;

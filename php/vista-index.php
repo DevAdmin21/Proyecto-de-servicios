@@ -38,7 +38,6 @@ foreach ($lista as $a) {
    <h3>$nombre</h3>
    <p>Especialidad: $especialidad</p>
    <p>Experiencia: $experiencia años</p>
-   <a href='#?id=$id'>Agendar cita</a>
   </div>
  ";
 }
