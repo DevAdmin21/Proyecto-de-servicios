@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width">
+
+ <title>Consulta de Citas</title>
+
+ <script type="module" src="js/lib/manejaErrores.js"></script>
+</head>
+
+<body>
+
+ <h1>Listado de Citas</h1>
+
+ <p><a href="form_contacto.html">Nueva Cita</a></p>
+
+ <table>
+  <thead>
+   <tr>
+    <th>Cliente</th>
+    <th>Email</th>
+    <th>Fecha</th>
+    <th>Estatus</th>
+   </tr>
+  </thead>
+  <tbody id="lista">
+   <tr>
+    <td colspan="4"><progress max="100">Cargando…</progress></td>
+   </tr>
+  </tbody>
+ </table>
+
+ <script type="module">
+  import { descargaVista } from "./js/lib/descargaVista.js"
+  descargaVista("php/cita-vista-index.php")
+ </script>
+
+</body>
+
+</html>

@@ -6,16 +6,22 @@
   <meta name="viewport" content="width=device-width">
   <title>Formulario de Contacto</title>
   <script type="module" src="js/lib/manejaErrores.js"></script>
-
 </head>
 
 <body>
+
   <nav>
-        <a href="index.html">Inicio</a>
-        <a href="cotizartatuaje.html">Cotización</a>
-        <a href="form_contacto.html">Citas</a>
-        <a href="referencias.html">Referencias</a>
-    </nav>
+    <a href="consultar_citas.html">Lista citas</a>
+  </nav> 
+
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="cotizartatuaje.html">Cotización</a>
+    <a href="form_contacto.html">Citas</a>
+    <a href="referencias.html">Referencias</a>
+    <a href="consultar_citas.html">Citas agregadas</a>
+  </nav>
+
   <div class="contenedor">
 
     <h1>Formulario de contacto</h1>
@@ -23,20 +29,25 @@
     <form id="formulario">
 
       <select name="art_id" required>
+        <option value="">Selecciona un artista...</option>
         <option value="1">Alex Ink</option>
         <option value="2">Elena Moon</option>
         <option value="3">Victor Real</option>
       </select>
       <br>
 
-      <input type="text" name="cit_cliente" placeholder="Tu nombre" required>
+      <input type="text" name="cit_cliente" placeholder="Tu nombre" pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$" title="Solo se permiten letras y espacios." required>
       <br>
+
       <input type="email" name="cit_email" placeholder="Correo" required>
       <br>
+
       <textarea name="cit_descripcion" placeholder="Descripción" required></textarea>
       <br>
+
       <input type="date" name="cit_fecha" required>
       <br>
+
       <p><button type="submit">Procesa</button></p>
     </form>
 
@@ -47,6 +58,18 @@
     import { enviaFormRecibeJson } from "./js/lib/enviaFromRecibeJson.js"
 
     const formulario = document.getElementById("formulario")
+    
+    const inputFecha = formulario.cit_fecha;
+    const hoy = new Date();
+    
+    const fechaMin = hoy.toISOString().split('T')[0];
+    inputFecha.min = fechaMin;
+
+    const fechaMaxObj = new Date();
+    fechaMaxObj.setMonth(hoy.getMonth() + 3);
+    const fechaMax = fechaMaxObj.toISOString().split('T')[0];
+    inputFecha.max = fechaMax;
+
     formulario.addEventListener("submit", submit)
 
     async function submit(event) {
@@ -57,7 +80,6 @@
 
       const json = await respuesta.json()
       alert(json)
-
     }
   </script>
 
