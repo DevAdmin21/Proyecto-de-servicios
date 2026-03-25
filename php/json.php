@@ -1,5 +1,6 @@
 <?php 
-require_once __DIR__ . "/lib/recibeJson.php"; 
+require_once __DIR__ . "/lib/manejaErrores.php";
+require_once __DIR__ . "/lib/recibeJson.php";
 require_once __DIR__ . "/lib/devuelveJson.php";  
 
 $json = recibeJson();  
