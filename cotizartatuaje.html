@@ -50,10 +50,7 @@
             const tamano = parseInt(document.getElementById("inTamano").value);
 
 
-            if (isNaN(tamano) || tamano <= 0) {
-                divResultado.innerText = "El tamaño debe ser mayor a 0.";
-                return;
-            }
+            
             const datos = {
                 tamano: parseInt(document.getElementById("inTamano").value),
                 esColor: document.getElementById("inColor").checked

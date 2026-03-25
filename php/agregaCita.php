@@ -6,7 +6,7 @@ require_once __DIR__ . "/lib/ProblemDetailsException.php";
 require_once __DIR__ . "/lib/devuelveJson.php";
 require_once __DIR__ . "/Bd.php"; 
 
-$art_id = recibeTexto("art_id");
+$art_id = intval(recibeTexto("art_id"));
 $cit_cliente = recibeTexto("cit_cliente");
 $cit_email = recibeTexto("cit_email");
 $cit_descripcion = recibeTexto("cit_descripcion");
