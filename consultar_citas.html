@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
 
-    <title>Catálogo de Tatuadores</title>
+    <title>Consulta de Citas</title>
 
     <script type="module" src="js/lib/manejaErrores.js"></script>
-
 </head>
 
 <body>
-
     <nav>
         <a href="index.html">Inicio</a>
         <a href="cotizartatuaje.html">Cotización</a>
@@ -20,16 +18,29 @@
         <a href="referencias.html">Referencias</a>
         <a href="consultar_citas.html">Citas agregadas</a>
     </nav>
+    <h1>Listado de Citas</h1>
 
-    <h1>Catálogo de Tatuadores</h1>
+    <p><a href="form_contacto.html">Nueva Cita</a></p>
 
-    <div id="lista">
-        <progress max="100">Cargando…</progress>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Email</th>
+                <th>Fecha</th>
+                <th>Estatus</th>
+            </tr>
+        </thead>
+        <tbody id="lista">
+            <tr>
+                <td colspan="4"><progress max="100">Cargando…</progress></td>
+            </tr>
+        </tbody>
+    </table>
 
     <script type="module">
         import { descargaVista } from "./js/lib/descargaVista.js"
-        descargaVista("php/vista-index.php")
+        descargaVista("php/cita-vista-index.php")
     </script>
 
 </body>
